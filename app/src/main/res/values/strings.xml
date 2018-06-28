@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">services</string>
+    <string name="todo">TODO</string>
+    <string name="button">Button</string>
+    <string name="start">start</string>
+    <string name="pause">pause</string>
+    <string name="stop">stop</string>
+    <string name="play">play</string>
+</resources>
