@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 public class myServices extends Service {
 
     MediaPlayer myPlayer;
+    int playPosition;
 
     @Nullable
     @Override
@@ -20,17 +21,32 @@ public class myServices extends Service {
     public void onCreate() {
         super.onCreate();
         myPlayer =MediaPlayer.create(this,R.raw.ankhon);
-        myPlayer.setLooping(false);
+        myPlayer.setLooping(true);
 
 
 
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent,int flag, int startId) {
         myPlayer.start();
 
-        return super.onStartCommand(intent,flags,startId);
+        if(intent.getStringExtra("order").equalsIgnoreCase("play")) {
+            myPlayer.start();
+            myPlayer.setLooping(true);
+
+        }
+        else if(intent.getStringExtra("order").equals("pause")){
+            playPosition = myPlayer.getCurrentPosition();
+            myPlayer.pause();
+        }
+        else if(intent.getStringExtra("order").equalsIgnoreCase("resume")){
+            myPlayer.seekTo(playPosition);
+            myPlayer.start();
+        }
+
+        return START_STICKY;
+
     }
 
 

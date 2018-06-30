@@ -12,6 +12,7 @@ import android.widget.MediaController;
 
 public class MainActivity extends AppCompatActivity {
     Button play,pause,stop;
+    String order = null;
 
 
     @Override
@@ -24,38 +25,52 @@ public class MainActivity extends AppCompatActivity {
         stop = findViewById(R.id.stop);
 
         play.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        startService(new Intent(MainActivity.this,myServices.class));
+            @Override
+            public void onClick(View v) {
+                Intent intent=(new Intent(MainActivity.this,myServices.class));
 
-//                                        MediaPlayer myPlayer = MediaPlayer.create(MainActivity.this, R.raw.ankhon);
-//
-//                                        if (myPlayer.isPlaying()) {
-//                                        } else {
-//                                            myPlayer.seekTo(length);
-//                                            myPlayer.start();
-                                    }
+                order ="play";
+                intent.putExtra("order",order);
+                startService(intent);
+
+                 play.setEnabled(false);
+                 pause.setEnabled(true);
+                 stop.setEnabled(true);
+
+
+            }
         });
 
                 pause.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View view) {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=(new Intent(MainActivity.this, myServices.class));
+                        order="pause";
+                        intent.putExtra("order",order);
+                        play.setText("Resume");
+                        startService (intent);
 
-                                                 startService(new Intent(MainActivity.this, myServices.class));
 
-//                    MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this,R.raw.ankhon);
-//                    mediaPlayer.pause();
-//                 length= mediaPlayer.getCurrentPosition();
+                        pause.setEnabled(false);
+                        stop.setEnabled(true);
+                        play.setEnabled(true);
 
+                    }
 
-                                             }
-                                         });
+                });
 
 
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stopService(new Intent(MainActivity.this,myServices.class));
+                Intent intent=new Intent(MainActivity.this,myServices.class);
+                order="pause";
+                intent.putExtra("order",order);
+                startService(intent);
+
+                pause.setEnabled(false);
+                stop.setEnabled(true);
+                play.setEnabled(true);
             }
         });
     }
